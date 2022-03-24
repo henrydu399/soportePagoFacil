@@ -7,6 +7,7 @@ package com.resuelva.soportepagofacil.controller;
 
 import com.resuelva.soportepagofacil.dto.SoportePagoFacilDto;
 import com.resuelva.soportepagofacil.entity.SoportePagoFacilEntity;
+import com.resuelva.soportepagofacil.mapper.soportePagoFacilMapper;
 import com.resuelva.soportepagofacil.repository.ISoportePagoFacilRepository;
 
 import java.util.ArrayList;
@@ -43,44 +44,66 @@ public class SoportePagoFacilController {
     @GetMapping("/")
     public String greetingForm(Model model) {
     	
-    	listCanalIngreso = new ArrayList<String>();
-    	listCanalIngreso.add("Llamadas");
-    	listCanalIngreso.add("Whatsapp");
-    	listCanalIngreso.add("Presencial");
+      String msj = "";
     	
-    	listAsesor = new ArrayList<String>();
-    	listAsesor.add("Mirley Parada");
-    	listAsesor.add("Kimberly Hoyos");
-    	
-    	listComunicacionPara  = new ArrayList<String>();
-    	listComunicacionPara.add("Soporte Técnico");
-    	listComunicacionPara.add("Cargar Saldo");
-    	listComunicacionPara.add("Soprte Plataforma");
-    	listComunicacionPara.add("PQRS Servicio");
-    	
-    	listCierreComunicacion = new ArrayList<String>();
-    	listCierreComunicacion.add("Soporte Realizado");
-    	listCierreComunicacion.add("Escalado con el Aliado");
-    	listCierreComunicacion.add("No Solucionado");
-    	listCierreComunicacion.add("Volver a Llamar");
-    	
-    	
-    	
+
+      model = this.cargueData(model);
+    		
       model.addAttribute("soportePagoFacilDto", new SoportePagoFacilDto());
-      model.addAttribute("listCanalIngreso", listCanalIngreso);
-      model.addAttribute("listAsesor", listAsesor);
-      model.addAttribute("listComunicacionPara", listComunicacionPara);
-      model.addAttribute("listCierreComunicacion", listCierreComunicacion);
-      
+
+      model.addAttribute("mensaje", msj);
       
       return "index";
     }
 
      @PostMapping("/")
-    public String addUser( @ModelAttribute SoportePagoFacilDto greeting, Model model) {
+    public String addUser( @ModelAttribute SoportePagoFacilDto soportePagoFacil, Model model) {
+    	
+        String msj = "";
+    	 try {
+    	        iSoportePagoFacilRepository.save(soportePagoFacilMapper.of(soportePagoFacil));
+    	        
+    	        msj = "Se ha guardado correctamente";
+    	 }catch (Exception e) {
+    		    msj = "ha ocurrido un error";
+			e.printStackTrace();
+		}
+    	 
+    	 model = this.cargueData(model);
     	 model.addAttribute("soportePagoFacilDto", new SoportePagoFacilDto());
-        
-        ///iSoportePagoFacilRepository.save(SoportePagoFacil);
-        return "redirect:/index";
+    	 model.addAttribute("mensaje", msj);
+        return "index";
     }
+     
+     
+     private Model cargueData(Model model ) {
+    	 
+    	   	listCanalIngreso = new ArrayList<String>();
+    	   	listCanalIngreso.add(null);
+        	listCanalIngreso.add("Llamadas");
+        	listCanalIngreso.add("Whatsapp");
+        	listCanalIngreso.add("Presencial");
+        	
+        	listAsesor = new ArrayList<String>();
+        	listAsesor.add("Mirley Parada");
+        	listAsesor.add("Kimberly Hoyos");
+        	
+        	listComunicacionPara  = new ArrayList<String>();
+        	listComunicacionPara.add("Soporte Técnico");
+        	listComunicacionPara.add("Cargar Saldo");
+        	listComunicacionPara.add("Soprte Plataforma");
+        	listComunicacionPara.add("PQRS Servicio");
+        	
+        	listCierreComunicacion = new ArrayList<String>();
+        	listCierreComunicacion.add("Soporte Realizado");
+        	listCierreComunicacion.add("Escalado con el Aliado");
+        	listCierreComunicacion.add("No Solucionado");
+        	listCierreComunicacion.add("Volver a Llamar");
+        	
+         model.addAttribute("listCanalIngreso", listCanalIngreso);
+         model.addAttribute("listAsesor", listAsesor);
+         model.addAttribute("listComunicacionPara", listComunicacionPara);
+         model.addAttribute("listCierreComunicacion", listCierreComunicacion);
+    	 return model;
+     }
 }

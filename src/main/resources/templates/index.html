@@ -1,0 +1,73 @@
+
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Soporte pago facil</title>
+    
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1 style="text-align:center;color:black;">INFORMACION SOPORTE PAGO FACIL</h1>
+	
+	<label> <span th:text="${mensaje}"></span></label>
+	
+    <form action="#" th:action="@{/}" th:object="${soportePagoFacilDto}" method="post">
+    	
+    	
+    	<br>
+   
+   <b for="canal de Ingreso:" style="text-align:left;position:absolute;top:130px;left: 415px;">canal de Ingreso:</b><br>
+    <select name="canalIngreso" th:field="*{canalIngreso}" style="text-align:left;position:absolute;top:150px;left:415px;">
+        
+        <option th:each="canalIngreso : ${listCanalIngreso}"
+                    th:text="${canalIngreso}"
+                    th:value="${canalIngreso}">
+    </select>
+
+    <br>
+
+ 
+        <label for="telefono" tabindex="5" style="text-align:center;position:absolute;top:130px;left:585px;">Teléfono:</label><br>
+        <input type="text"  th:field="*{telefono}"  name="telefono" style="text-align:center;position:absolute;top:150px;left:585px;" ><br>
+   
+
+    <br>
+
+    <label for="Asesor:" style="text-align:center;position:absolute;top:130px;left:835px;">Asesor:</label><br>
+    <select name="asesor"  th:field="*{asesor}"  style="text-align:center;position:absolute;top:150px;left:835px;">
+      <option th:each="asesor : ${listAsesor}"
+                    th:text="${asesor}"
+                    th:value="${asesor}">
+    </select>
+
+    <br>
+
+    <label for="Comunicación Para:" style="text-align:left;position:absolute;top:250px;left:410px;">Comunicación Para:</label><br>
+    <select name="comunicacionPara" th:field="*{comunicacionPara}"   style="text-align:left;position:absolute;top:270px;left:410px;">
+       <option th:each="comunicacionPara : ${listComunicacionPara}"
+                    th:text="${comunicacionPara}"
+                    th:value="${comunicacionPara}">
+       
+    </select>
+
+    <br>
+
+    <label for="Cierre de la Comunicación:" style="text-align:center;position:absolute;top:250px;left:585px;">Cierre de la Comunicación:</label><br>
+    <select name="cierreComunicacion"  th:field="*{cierreComunicacion}"   style="text-align:center;position:absolute;top:270px;left:585px;">
+       <option th:each="cierreComunicacion : ${listCierreComunicacion}"
+                    th:text="${cierreComunicacion}"
+                    th:value="${cierreComunicacion}">
+    </select>
+
+    <br>
+
+    <label for="Observación:" style="text-align:center;position:absolute;top:250px;left:835px;">Observación:</label><br>
+    <textarea name="texto" th:field="*{observacion}"  rows="4" cols="40" placeholder="Escriba algo" style="text-align:left;position:absolute;top:270px;left:835px;"></textarea>
+
+    <br>
+    	
+        
+        <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    </form>
+</body>
+</html>
