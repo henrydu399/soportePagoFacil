@@ -1,0 +1,48 @@
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>Soporte pago facil</title>
+    
+    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h1 style="text-align:center;color:black;">INFORMACION SOPORTE PAGO FACIL</h1>
+	
+	<label> <span th:text="${mensaje}"></span></label>
+
+<div th:switch="${list}">
+
+    <h2 th:case="null">No existen soportes yet!</h2>
+    
+        <div th:case="*">
+        
+            <h2>Lista SoportePagoFacil</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Canal Ingreso </th>
+                        <th>Telefono </th>
+                        <th>Asesor </th>
+                        <th>Comunicacion para </th>
+                        <th>Cierre de comunicacion </th>
+                        <th>Observacion </th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="SoportePagoFacil : ${list}">
+                    <td th:text="${SoportePagoFacil.canalIngreso}"> </td>
+                    <td th:text="${SoportePagoFacil.telefono}"> </td>
+                    <td th:text="${SoportePagoFacil.asesor}"> </td>
+                    <td th:text="${SoportePagoFacil.comunicacionPara}"> </td>
+                    <td th:text="${SoportePagoFacil.cierreComunicacion}"> </td>
+                    <td th:text="${SoportePagoFacil.observacion}"> </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>      
+    <p><a href="/save">crear nuevo SoportePagoFacil</a></p>
+</div>
+
+</body>
+</html>
