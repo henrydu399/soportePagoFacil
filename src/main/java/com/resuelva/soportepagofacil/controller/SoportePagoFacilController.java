@@ -5,10 +5,13 @@
 package com.resuelva.soportepagofacil.controller;
 
 
+
 import com.resuelva.soportepagofacil.dto.SoportePagoFacilDto;
 import com.resuelva.soportepagofacil.entity.SoportePagoFacilEntity;
 import com.resuelva.soportepagofacil.mapper.soportePagoFacilMapper;
 import com.resuelva.soportepagofacil.repository.ISoportePagoFacilRepository;
+
+import javassist.expr.NewArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +42,26 @@ public class SoportePagoFacilController {
     public List<String> listCierreComunicacion;
     
     
+	/*
+	 * 
+	 * @GetMapping("/list") public String greetingForm(Model model) {
+	 * 
+	 * String msj = "";
+	 * 
+	 * 
+	 * model = this.cargueData(model);
+	 * 
+	 * model.addAttribute("soportePagoFacilDto", new SoportePagoFacilDto());
+	 * 
+	 * model.addAttribute("mensaje", msj);
+	 * 
+	 * model.addAttribute("list", GetListSoportePagoFacil());
+	 * 
+	 * return "index"; }
+	 */
     
-    
-    @GetMapping("/")
-    public String greetingForm(Model model) {
+    @GetMapping("/save")
+    public String saveGet(Model model) {
     	
       String msj = "";
     	
@@ -53,17 +72,27 @@ public class SoportePagoFacilController {
 
       model.addAttribute("mensaje", msj);
       
-      return "index";
+      model.addAttribute("list", GetListSoportePagoFacil());
+      
+      return "save";
     }
 
-     @PostMapping("/")
+     @PostMapping("/save")
     public String addUser( @ModelAttribute SoportePagoFacilDto soportePagoFacil, Model model) {
+    	 
+    	 if( model == null) {
+    		 return "save";
+    	 }
     	
         String msj = "";
     	 try {
-    	        iSoportePagoFacilRepository.save(soportePagoFacilMapper.of(soportePagoFacil));
-    	        
-    	        msj = "Se ha guardado correctamente";
+    		 if( soportePagoFacil.getTelefono()!= null || !soportePagoFacil.getTelefono().isEmpty()) {
+     	        iSoportePagoFacilRepository.save(soportePagoFacilMapper.of(soportePagoFacil));   
+     	        msj = "Se ha guardado correctamente";
+    	 }else {
+    		 msj = " ha dejado campos vacios";
+    	 }
+
     	 }catch (Exception e) {
     		    msj = "ha ocurrido un error";
 			e.printStackTrace();
@@ -71,8 +100,20 @@ public class SoportePagoFacilController {
     	 
     	 model = this.cargueData(model);
     	 model.addAttribute("soportePagoFacilDto", new SoportePagoFacilDto());
+    	 model.addAttribute("list", GetListSoportePagoFacil());
     	 model.addAttribute("mensaje", msj);
-        return "index";
+        return "save";
+    }
+     
+    private List<SoportePagoFacilDto> GetListSoportePagoFacil() {
+    	
+    	List<SoportePagoFacilDto> listOut =  new ArrayList<SoportePagoFacilDto>(); 
+    	List<SoportePagoFacilEntity> list= iSoportePagoFacilRepository.findAll();
+    	for( SoportePagoFacilEntity e : list) {
+    		listOut.add(soportePagoFacilMapper.of(e) );
+    	}
+    	return listOut;
+    	
     }
      
      
@@ -85,16 +126,19 @@ public class SoportePagoFacilController {
         	listCanalIngreso.add("Presencial");
         	
         	listAsesor = new ArrayList<String>();
+        	listAsesor.add(null);
         	listAsesor.add("Mirley Parada");
         	listAsesor.add("Kimberly Hoyos");
         	
         	listComunicacionPara  = new ArrayList<String>();
+        	listComunicacionPara.add(null);
         	listComunicacionPara.add("Soporte Técnico");
         	listComunicacionPara.add("Cargar Saldo");
         	listComunicacionPara.add("Soprte Plataforma");
         	listComunicacionPara.add("PQRS Servicio");
         	
         	listCierreComunicacion = new ArrayList<String>();
+        	listCierreComunicacion.add(null);
         	listCierreComunicacion.add("Soporte Realizado");
         	listCierreComunicacion.add("Escalado con el Aliado");
         	listCierreComunicacion.add("No Solucionado");

@@ -32,20 +32,24 @@ public class soportePagoFacilMapper {
 	
 	public static SoportePagoFacilDto   of( SoportePagoFacilEntity e) {
 		SoportePagoFacilDto d =  new SoportePagoFacilDto();
+		
+		if( e.getId() != null) 
+			d.setId(  e.getId() );
+		
 		if( e.getAsesor() != null && !e.getAsesor().isEmpty()) 
-			d.setAsesor(d.getAsesor());
+			d.setAsesor(e.getAsesor());
 		
 		if( e.getCanalIngreso() != null && !e.getCanalIngreso().isEmpty()) 
-			d.setCanalIngreso(d.getCanalIngreso());
+			d.setCanalIngreso(e.getCanalIngreso());
 		
 		if( e.getCierreComunicacion() != null && !e.getCierreComunicacion().isEmpty()) 
-			d.setCierreComunicacion(d.getCierreComunicacion());
+			d.setCierreComunicacion(e.getCierreComunicacion());
 		
 		if( e.getComunicacionPara() != null && !e.getComunicacionPara().isEmpty()) 
-			d.setComunicacionPara(d.getComunicacionPara());
+			d.setComunicacionPara(e.getComunicacionPara());
 		
 		if( e.getObservacion() != null && !e.getObservacion().isEmpty()) 
-			d.setObservacion(d.getObservacion());
+			d.setObservacion(e.getObservacion());
 		
 		return d;
 	}
